@@ -1,0 +1,430 @@
+////////////////////// 15 (11)
+
+#include<iostream>
+#include<cstdlib>
+
+float massiv(char* arr, char* arr1, int size) {
+    for (int i = 0; i < size; i++) {
+        arr[i] = arr[(i + 1)];
+        if (i == (size - 1)) {
+            arr[i] = arr1[0];
+        }
+    }
+        return *arr;
+                        }
+void main() {
+    using namespace std;
+    char* arr;
+    char* arr1;
+    int size;
+    setlocale(LC_ALL, "Russian");
+    cout << "Введите размер массива :" << endl;
+    cin >> size;
+    arr = new char[size];
+    arr1 = new char[size];
+    cout << "Заполните массив :" << endl;
+    for (int i = 0; i < size; i++) {
+        cin >> arr[i];
+        arr1[i] = arr[i];
+        cout << endl;
+    }
+
+    (*massiv)(arr, arr1, size);
+        
+        for (int i = 0; i < size; i++)
+            cout << " " << arr[i];
+
+
+    delete[] arr;
+    delete[] arr1;
+
+}
+
+////////////////////////////////////
+////////////////////////
+
+#include <iostream>
+
+float funkcijaSINand1(float x) {
+	x = sin(x) + 1;
+	return x; // придаёт переменной "x" то, что посчитала функция
+};
+float funkcijaDVA(float x) {
+	x = sin(x) + pow(x,3);
+	return x;
+};
+float funkcijaDVA2(float x) {
+	x = cos(x);
+	return x;
+
+}
+
+float metoda_parabol(float a, float b, float n) {
+	using namespace std;
+	float s1 = 0, s2 = 0, i = 1, z, x, h;
+
+	n = 200;
+	h = (b - a) / (2 * n);
+	x = a + 2 * h;
+	do {
+		s2 = s2 + funkcijaSINand1(x);
+		s1 = s1 + funkcijaSINand1(x);
+		x = x + h;
+		i = i + 1;
+	} while (i < n);
+	z = (h / 3) * (funkcijaSINand1(a) + 4 * (funkcijaSINand1((a + h)) + 4 * s1 + 2 * s2 + funkcijaSINand1(b)) );
+	cout <<z<<endl;
+	return z;
+};
+
+float metoda_Trapecij(float a, float b, float n) {
+	using namespace std;
+	float h, s=0, x, z;
+	x = a;
+	h = (b - a) / n;
+	do {
+		s = s + h * (funkcijaSINand1(x) + funkcijaSINand1((x + h)) / 2);
+		x = x + h;
+	} while (x < (b - h));
+	z = x;
+	cout << z<<endl;
+	return z;
+};
+
+float metoda_dihotomii(float a, float b, float n, float e) {
+	using namespace std;
+	float x;
+	do {
+		x = (a + b) / 2;
+		if (funkcijaDVA(x) * funkcijaDVA2(a) <= 0) {
+			b = x;
+		}
+		else {
+			a = x;
+		}
+	}
+	while (abs(a - b) < (2 * e));
+
+		x = sqrt(x);
+		cout << x << endl;;
+		return x;
+	};
+
+float metoda_Kasatelnoj(float a, float b, float n, float e) {
+	using namespace std;
+
+	float x, x1;
+	if (funkcijaDVA(a) + funkcijaDVA(a) > 0) {
+		x1 = a;
+	}
+	else {
+		x1 = b;
+	};
+
+	do {
+		x = x1;
+		x1 = x - (funkcijaDVA(x) / funkcijaDVA2(x));
+	} while (abs(x1 - x) > e);
+
+	cout << x1<< endl;
+	return x1;
+}
+
+float main() {
+	using namespace std;
+	float a, b, n = 200, e = 0.0001;
+	cout << "cin a = ";
+	cin >> a;
+	cout << "cin b = ";
+	cin >> b;
+	(*metoda_parabol)(a, b, n);
+	(*metoda_Trapecij)(a, b, n);
+	(*metoda_Kasatelnoj)(a, b, n, e);
+	float (*functOne)(float a, float b, float n, float e);
+	functOne = metoda_dihotomii;
+	functOne(a, b, n, e);
+	};
+
+///////////////////////////////////////////
+//////////////////////////////////////////////////// 15(3-1)
+
+#include <iostream>
+using namespace std;
+//задан 1
+
+float integ(float(*) (float), float, float, float);
+float f(float);
+
+
+int main()
+{
+	setlocale(LC_CTYPE, "Russian");
+	float z, a, b, h;
+	cout << "предел: a " << endl;
+	cin >> a;
+	cout << "предел: b " << endl;
+	cin >> b;
+	cout << "точность:" << endl;
+	cin >> h;
+	z = integ(f, (float)a, (float)b, (float)h);
+	std::cout << "Integral=" << z;
+}
+float integ(float(*f) (float), float a, float b, float h)
+{
+	float x, s = 0.0;
+	x = a + h;
+	while (x <= b)
+	{
+		s += h * f(x);
+		x = x + h;
+	}
+	return s / 2;
+}
+float f(float x)
+{
+	return (pow(x, 3) + (2 * x) - 1);
+}
+
+//////////////////////////////////////////////////// 15(3-2)
+
+#include <iostream>
+using namespace std;
+//задан 2
+void zv(int dl, int z, string st)
+{
+	for (int i = 0; i <= dl - z; i++) {
+		if (st[i] == '*') {
+			i++;
+			for (i; st[i] != '*'; i++)
+				cout << st[i];
+		}
+	}
+}
+int main()
+{
+	setlocale(LC_CTYPE, "Russian");
+	char st[] = "fcdk*djf*diwh";
+	int dl, i, z = 0;
+	cout << "Исходная строка:fcdk*djf*diwh";
+	cout << "\nНовая строка:";
+	dl = strlen(st);
+	zv(dl, z, st);
+}
+
+
+//////////////////////////////////////////////////
+
+/////////////////////////////////// 15(4-1)
+
+#include <iostream>
+
+using namespace std;
+
+float integ(float(*) (float), float, float, float);
+float f(float);
+
+
+int main()
+{
+	setlocale(LC_CTYPE, "Russian");
+	float z, a, b, h;
+	cout << "предел: a " << endl;
+	cin >> a;
+	cout << "предел: b " << endl;
+	cin >> b;
+	cout << "точность:" << endl;
+	cin >> h;
+	z = integ(f, (float)a, (float)b, (float)h);
+	std::cout << "Integral=" << z;
+}
+float integ(float(*f) (float), float a, float b, float h)
+{
+	float x, s = 0.0;
+	x = a + h;
+	while (x <= b)
+	{
+		s += h * f(x);
+		x = x + h;
+	}
+	return s / 2;
+}
+float f(float x)
+{
+	return (pow(2.7182818, x) - (1 / x) - 3);
+}
+
+////////////////////////////////////////////// 15(4-2)
+
+#include <iostream>
+using namespace std;
+void delB(int dl, char st[])
+{
+	int z = 0;
+	for (int i = 0; i <= dl - z; i++) {
+		if (st[i] == 'b') {
+			i += 1;
+			z += 1;
+		}
+		cout << st[i];
+	}
+}
+int main()
+{
+	setlocale(LC_CTYPE, "Russian");
+	char st[] = "fbkdkbcmb";
+	int dl;
+	cout << "Исходная строка:fbkdkbcmb";
+	cout << "\nНовая строка:";
+	dl = strlen(st);
+	delB(dl, st);
+
+}
+
+///////////////////////////////////////////////////
+//////////////////////////////////////////////////// 15(12-1)
+
+#include <iostream>
+
+float finction_one(float x) {
+	x = exp(x) + 2;
+	return x;
+}
+
+float finction_one_shtrih(float x) {
+	x = exp(x);
+	return x;
+}
+
+float Method_Porabol(float a, float b, float n) {
+	using namespace std;
+	float h, s1 = 0, s2 = 0, i = 1, x, z;
+	h = (b - a) / (2 * n);
+	x = a + 2 * h;
+	do {
+		s2 = s2 + finction_one(x);
+		x = x + h;
+		s1 = s1 + finction_one(x);
+		x = x + h;
+		i = i + 1;
+	} while (i > n);
+	z = (h / 3) * (finction_one(a) + 4 * finction_one((a + h)) + 4 * s1 + 2 * s2 + finction_one(b));
+	cout << z << endl;
+	return z;
+}
+
+float Method_Trapecii(float a, float b, float n) {
+	using namespace std;
+	float h, x, s, z;
+	h = (b - a) / n; x = a; s = 0;
+	do {
+		s = s + h * (finction_one(x) + finction_one(x + h)) / 2;
+		x = x + h;
+	} while (x < (b - h));
+	z = x;
+	cout << z << endl;
+	return z;
+}
+
+float Method_Kasatelnoi(float a, float b, float n, float e) {
+	using namespace std;
+	float x1, x;
+	if (finction_one(a) * finction_one_shtrih(a) > 0) {
+		x1 = a;
+	}
+	else {
+		x1 = b;
+	}
+	do {
+		x = x1;
+		x1 = x - (finction_one(x) / finction_one_shtrih(x));
+	} while (abs(x1 - x) < e);
+	x1 = sqrt(x1);
+	cout << x1 << endl;
+	return x1;
+}
+
+float Method_Dihotomii(float a, float b, float n, float e) {
+	using namespace std;
+	float x;
+	do {
+		x = (a + b) / 2;
+		if (finction_one(x) * finction_one(a) <= 0) {
+			b = x;
+		}
+		else {
+			a = x;
+		}
+	} while (abs(a - b) > 2 * e);
+	cout << x << endl;
+	return x;
+}
+
+float main() {
+	using namespace std;
+	float a, b, n = 200, e = 0.0001;
+	cout << "cin a = ";
+	cin >> a;
+	cout << "cin b = ";
+	cin >> b;
+	(*Method_Porabol)(a, b, n);
+	(*Method_Trapecii)(a, b, n);
+	(*Method_Kasatelnoi)(a, b, n, e);
+	float (*functOne)(float a, float b, float n, float e);
+	functOne = Method_Dihotomii;
+	functOne(a, b, n, e);
+}
+///////////////////////////////////////////15 (12-2)
+
+#include <iostream>
+#include <windows.h>
+#include <cstring>
+
+char function1(char string[250]) {
+	HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
+	setlocale(LC_ALL, "RUS");
+	using namespace std;
+	int i, chek = 0;
+
+	SetConsoleTextAttribute(hConsole, 20);
+	for (i = strlen(string); i >= 0; i--) {
+		cout << string[i];
+		if (string[i] == '0') {
+			break;
+		}
+	}
+	SetConsoleTextAttribute(hConsole, 15);
+	cout << " " << endl;
+
+	for (i = strlen(string); i >= 0; i--) {
+		if (string[i] == ' ') {
+			chek += 1;
+		}
+		if (chek % 2 != 0 && chek != 0) {
+			string[i] = ' ';
+		}
+		if (string[i] == '0') {
+			break;
+		}
+	}
+
+	SetConsoleTextAttribute(hConsole, 10);
+	for (i = strlen(string); i >= 0; i--) {
+		cout << string[i];
+		if (string[i] == '0') {
+			break;
+		}
+	}
+	SetConsoleTextAttribute(hConsole, 15);
+
+	return string[250];
+}
+
+int main() {
+	char string[250] = "qq ww ee rr";
+	char* p = string;
+	char (*functOne)(char stringu[250]);
+	functOne = function1;
+	functOne(p);
+	return 0;
+}
+
