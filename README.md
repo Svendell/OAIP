@@ -1,3 +1,3 @@
 # OAIP
-Labs 1-2sem
+Labs 1 sem
 var 11
